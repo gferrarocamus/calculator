@@ -1,8 +1,8 @@
 #main-container {
   width: 700px;
   margin: 0 auto;
-  background-color: #E0E0E0;
-  border: 1px solid #BABABA;
+  background-color: #e0e0e0;
+  border: 1px solid #bababa;
   border-radius: 2px;
 }
 
@@ -12,7 +12,7 @@
   align-items: center;
   height: 100px;
   padding: 10px 30px;
-  margin: 2px;  
+  margin: 2px;
   background-color: #848594;
   color: #ffffff;
   font-weight: bold;
@@ -38,7 +38,7 @@
   height: 100px;
   padding: 10px;
   margin: 2px;
-  border: 1px solid #BABABA;
+  border: 1px solid #bababa;
   cursor: pointer;
 }
 
@@ -48,15 +48,15 @@
 }
 
 .orange-bg {
-  background-color: #F5913E;
+  background-color: #f5913e;
 }
 
 .orange-bg:hover {
-  background-color: rgba(225, 124, 42, 1);  
+  background-color: rgba(225, 124, 42, 1);
 }
 
 .gray-bg {
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 
 .gray-bg:hover {
@@ -65,7 +65,7 @@
 
 .display {
   animation-play-state: paused;
-  animation-fill-mode: none; 
+  animation-fill-mode: none;
 }
 
 .display:hover {
