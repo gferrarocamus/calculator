@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
 import Display from './Display';
 import ButtonPanel from './ButtonPanel';
+import './components.css';
 
 class App extends React.Component {
   render(){
     return (
-      <div>
+      <div id='main-container'>
         <Display />
         <ButtonPanel />
       </div>

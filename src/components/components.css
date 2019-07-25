@@ -1,0 +1,79 @@
+#main-container {
+  width: 700px;
+  margin: 0 auto;
+  background-color: #E0E0E0;
+  border: 1px solid #BABABA;
+  border-radius: 2px;
+}
+
+.display {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100px;
+  padding: 10px 30px;
+  margin: 2px;  
+  background-color: #848594;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.button-panel {
+  font-size: 2em;
+}
+
+.button-panel-row,
+.button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+
+.button {
+  text-align: center;
+  flex-grow: 1;
+  flex-basis: 25%;
+  height: 100px;
+  padding: 10px;
+  margin: 2px;
+  border: 1px solid #BABABA;
+}
+
+.button.wide {
+  flex-grow: 2;
+  flex-basis: calc(50% + 4px);
+}
+
+.orange-bg {
+  background-color: #F5913E;
+}
+
+.orange-bg:hover {
+  background-color: rgba(225, 124, 42, 1);  
+}
+
+.gray-bg {
+  background-color: #E0E0E0;
+}
+
+.gray-bg:hover {
+  background-color: rgba(194, 194, 194, 1);
+}
+
+.display {
+  animation-play-state: paused;
+  animation-fill-mode: none; 
+}
+
+.display:hover {
+  animation: blinking 1s steps(1) infinite;
+  animation-play-state: running;
+}
+
+@keyframes blinking {
+  50% {
+    color: transparent;
+  }
+}
