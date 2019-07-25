@@ -1,17 +1,19 @@
 import React from 'react';
 import Display from './Display';
 import ButtonPanel from './ButtonPanel';
-import './style.css';
+import calculate from '../logic/calculate';
+import '../style/components.css';
 
 class App extends React.Component {
-  render(){
+  render() {
     return (
-      <div id='main-container'>
+      <div id="main-container">
         <Display />
         <ButtonPanel />
       </div>
     );
   }
 }
+
 
 export default App;
