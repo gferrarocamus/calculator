@@ -2,11 +2,10 @@ import operate from './operate';
 
 const calculate = (data, buttonName) => {
   const result = {
-    total: data.total,
-    next: data.next,
+    total: data.total || '',
+    next: data.next || '',
     operation: data.operation,
   };
-  let expression = '';
   switch (buttonName) {
     case '1':
     case '2':
@@ -17,40 +16,51 @@ const calculate = (data, buttonName) => {
     case '7':
     case '8':
     case '9':
-      expression += buttonName;
+      if (result.operation === '=') result.total = '';
       if (result.operation === null) {
-        result.total = expression;
+        result.total += buttonName;
       } else {
-        result.next = expression;
+        result.next += buttonName;
       }
       break;
     case '.':
-      // eslint-disable-next-line no-unused-expressions
-      expression === '' ? (expression += '0.') : (expression += '.');
       if (result.operation === null) {
-        result.total = expression;
+        // eslint-disable-next-line no-unused-expressions
+        result.total === '' ? (result.total += '0.') : (result.total += '.');
       } else {
-        result.next = expression;
+        // eslint-disable-next-line no-unused-expressions
+        result.next === '' ? (result.next += '0.') : (result.next += '.');
       }
       break;
     case '+':
     case '−':
     case '×':
     case '÷':
-    case '%':
       result.operation = buttonName;
-      if (result.next !== null) {
+      if (result.total === '') result.total = 0;
+      if (result.next !== '') {
         result.total = operate(result.total, result.next, result.operation);
         result.next = null;
+        result.operation = null;
+      }
+      break;
+    case '%':
+      if (result.total === '') result.total = 0;
+      if (result.next === '') {
+        result.total = operate(result.total, '100', '÷');
+        result.operation = buttonName;
+      } else if (result.operation !== null) {
+        const secondValue = operate(result.next, '100', '÷');
+        result.total = operate(result.total, secondValue, result.operation);
+        result.next = null;
+        result.operation = null;
       }
       break;
     case '+/−':
       if (result.operation === null) {
-        expression = result.total * -1;
-        result.total = `${expression}`;
+        result.total = operate(result.total, '-1', '×');
       } else {
-        expression = result.total * -1;
-        result.next = `${expression}`;
+        result.next = operate(result.next, '-1', '×');
       }
       break;
     case 'AC':
@@ -59,13 +69,15 @@ const calculate = (data, buttonName) => {
       result.operation = null;
       break;
     case '=':
-      if (result.operation !== null && result.next !== null) {
+      if (result.total === '') result.total = 0;
+      if (result.next !== '') {
         result.total = operate(result.total, result.next, result.operation);
         result.next = null;
       }
+      result.operation = buttonName;
       break;
     default:
-      break;
+      return null;
   }
   return result;
 };
