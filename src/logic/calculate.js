@@ -1,7 +1,7 @@
 import operate from './operate';
 
 const calculate = (data, buttonName) => {
-  let result = {
+  const result = {
     total: data.total,
     next: data.next,
     operation: data.operation,
@@ -18,15 +18,16 @@ const calculate = (data, buttonName) => {
     case '8':
     case '9':
       expression += buttonName;
-      if(result.operation === null){
+      if (result.operation === null) {
         result.total = expression;
       } else {
         result.next = expression;
       }
       break;
     case '.':
-      expression === '' ? expression += '0.' : expression += '.';
-      if(result.operation === null){
+      // eslint-disable-next-line no-unused-expressions
+      expression === '' ? (expression += '0.') : (expression += '.');
+      if (result.operation === null) {
         result.total = expression;
       } else {
         result.next = expression;
@@ -38,18 +39,18 @@ const calculate = (data, buttonName) => {
     case '÷':
     case '%':
       result.operation = buttonName;
-      if(result.next !== null){
+      if (result.next !== null) {
         result.total = operate(result.total, result.next, result.operation);
         result.next = null;
       }
       break;
     case '+/−':
-      if(result.operation === null){
+      if (result.operation === null) {
         expression = result.total * -1;
-        result.total = ''+expression;
+        result.total = `${expression}`;
       } else {
         expression = result.total * -1;
-        result.next = ''+expression;
+        result.next = `${expression}`;
       }
       break;
     case 'AC':
@@ -58,7 +59,7 @@ const calculate = (data, buttonName) => {
       result.operation = null;
       break;
     case '=':
-      if(result.operation !== null && result.next !== null){
+      if (result.operation !== null && result.next !== null) {
         result.total = operate(result.total, result.next, result.operation);
         result.next = null;
       }
