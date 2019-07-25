@@ -1,11 +1,94 @@
 import operate from './operate';
 
+const copyData = data => ({
+  total: data.total || '',
+  next: data.next || '',
+  operation: data.operation,
+});
+
+const digits = (data, buttonName) => {
+  const result = copyData(data);
+
+  if (result.operation === '=') {
+    result.total = '';
+    result.operation = null;
+  }
+
+  if (result.operation === null) {
+    result.total += buttonName;
+  } else {
+    result.next += buttonName;
+  }
+  return result;
+};
+
+const point = (data) => {
+  const result = copyData(data);
+  if (result.operation === null) {
+    result.total += result.total === '' ? '0.' : '.';
+  } else {
+    result.next += result.next === '' ? '0.' : result.next += '.';
+  }
+  return result;
+};
+
+const percentage = (data) => {
+  const result = copyData(data);
+  if (result.next === '') {
+    result.total = operate(result.total, '100', '÷');
+  } else if (result.operation !== null) {
+    const secondValue = operate(result.next, '100', '÷');
+    result.total = operate(result.total, secondValue, result.operation);
+    result.next = null;
+    result.operation = null;
+  }
+  return result;
+};
+
+const basicOperators = (data, buttonName) => {
+  const result = copyData(data);
+
+  if (result.total === '') result.total = 0;
+
+  if (result.next !== '') {
+    result.total = operate(result.total, result.next, buttonName);
+    result.next = null;
+    result.operation = null;
+  } else {
+    result.operation = buttonName;
+  }
+  return result;
+};
+
+const inverse = (data) => {
+  const result = copyData(data);
+  if (result.operation === null) {
+    result.total = operate(result.total, '-1', '×');
+  } else {
+    result.next = operate(result.next, '-1', '×');
+  }
+  return result;
+};
+
+const allClear = () => ({
+  total: null,
+  next: null,
+  operation: null,
+});
+
+const equal = (data) => {
+  const result = copyData(data);
+  if (result.next !== '') {
+    result.total = result.total === ''
+      ? operate(0, result.next, result.operation)
+      : operate(result.total, result.next, result.operation);
+    result.next = null;
+  }
+  result.operation = '=';
+  return result;
+};
+
 const calculate = (data, buttonName) => {
-  const result = {
-    total: data.total || '',
-    next: data.next || '',
-    operation: data.operation,
-  };
   switch (buttonName) {
     case '1':
     case '2':
@@ -16,70 +99,25 @@ const calculate = (data, buttonName) => {
     case '7':
     case '8':
     case '9':
-      if (result.operation === '=') result.total = '';
-      if (result.operation === null) {
-        result.total += buttonName;
-      } else {
-        result.next += buttonName;
-      }
-      break;
+      return digits(data, buttonName);
     case '.':
-      if (result.operation === null) {
-        // eslint-disable-next-line no-unused-expressions
-        result.total === '' ? (result.total += '0.') : (result.total += '.');
-      } else {
-        // eslint-disable-next-line no-unused-expressions
-        result.next === '' ? (result.next += '0.') : (result.next += '.');
-      }
-      break;
+      return point(data);
     case '+':
     case '−':
     case '×':
     case '÷':
-      result.operation = buttonName;
-      if (result.total === '') result.total = 0;
-      if (result.next !== '') {
-        result.total = operate(result.total, result.next, result.operation);
-        result.next = null;
-        result.operation = null;
-      }
-      break;
+      return basicOperators(data, buttonName);
     case '%':
-      if (result.total === '') result.total = 0;
-      if (result.next === '') {
-        result.total = operate(result.total, '100', '÷');
-        result.operation = buttonName;
-      } else if (result.operation !== null) {
-        const secondValue = operate(result.next, '100', '÷');
-        result.total = operate(result.total, secondValue, result.operation);
-        result.next = null;
-        result.operation = null;
-      }
-      break;
+      return percentage(data);
     case '+/−':
-      if (result.operation === null) {
-        result.total = operate(result.total, '-1', '×');
-      } else {
-        result.next = operate(result.next, '-1', '×');
-      }
-      break;
+      return inverse(data);
     case 'AC':
-      result.total = null;
-      result.next = null;
-      result.operation = null;
-      break;
+      return allClear();
     case '=':
-      if (result.total === '') result.total = 0;
-      if (result.next !== '') {
-        result.total = operate(result.total, result.next, result.operation);
-        result.next = null;
-      }
-      result.operation = buttonName;
-      break;
+      return equal(data);
     default:
       return null;
   }
-  return result;
 };
 
 export default calculate;

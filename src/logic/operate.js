@@ -1,9 +1,8 @@
 const Big = require('big.js');
 
 const operate = (firstValue, secondValue, operator) => {
-  if (firstValue === '' || secondValue === '') return;
-  console.log(firstValue)
-  console.log(secondValue)
+  if (firstValue === '' || secondValue === '') return null;
+
   let total = '';
   const x = Big(+firstValue);
   const y = Big(+secondValue);
