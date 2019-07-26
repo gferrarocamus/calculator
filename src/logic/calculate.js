@@ -2,6 +2,7 @@ import operate from './operate';
 
 const clear = (value) => {
   if (value === null) return '';
+  if (value === '-') return '-';
 
   const copy = value.slice();
   if (Number.isNaN(+copy)) return '';
@@ -54,12 +55,11 @@ const point = (data) => {
 
 const percentage = (data) => {
   const result = copyData(data);
-  if (result.next === '' && result.operation === null) {
+  if (result.next === '' && !/[+−×÷]/.test(result.operation)) {
     result.total = operate(result.total, '100', '÷');
   } else {
     const secondValue = operate(result.next, '100', '÷');
     result.total = operate(result.total, secondValue, result.operation);
-    result.next = null;
   }
   result.operation = '=';
   return result;
@@ -86,7 +86,7 @@ const inverseChecks = (value) => {
 
 const inverse = (data) => {
   const result = copyData(data);
-  if (result.next === '' && !(/[+−×÷]/.test(result.operation))) {
+  if (result.next === '' && !/[+−×÷]/.test(result.operation)) {
     result.total = inverseChecks(result.total);
   } else {
     result.next = inverseChecks(result.next);
