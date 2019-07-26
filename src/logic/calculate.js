@@ -4,7 +4,6 @@ const clear = (value) => {
   if (value === null) return '';
 
   const copy = value.slice();
-  if (copy === '-') return copy;
   if (Number.isNaN(+copy)) return '';
   return copy;
 };
@@ -33,8 +32,7 @@ const digits = (data, buttonName) => {
 
 const pointChecks = (value) => {
   if (value.slice(-1) === '.') return value;
-  if (value === '') return '0.';
-  if (value.indexOf('.') !== -1) return '0.';
+  if (value === '' || value.indexOf('.') !== -1) return '0.';
   return `${value}.`;
 };
 
@@ -56,14 +54,14 @@ const point = (data) => {
 
 const percentage = (data) => {
   const result = copyData(data);
-  if (result.next === '') {
+  if (result.next === '' && result.operation === null) {
     result.total = operate(result.total, '100', '÷');
-  } else if (result.operation !== null) {
+  } else {
     const secondValue = operate(result.next, '100', '÷');
     result.total = operate(result.total, secondValue, result.operation);
     result.next = null;
-    result.operation = null;
   }
+  result.operation = '=';
   return result;
 };
 
@@ -104,15 +102,12 @@ const allClear = () => ({
 
 const equal = (data) => {
   const result = copyData(data);
-
-  if (result.total.slice(-1) === '.') result.total = result.total.slice(0, -1);
-
   if (/[+−×÷]/.test(result.operation)) {
     result.total = result.total === ''
       ? operate(0, result.next, result.operation)
       : operate(result.total, result.next, result.operation);
     result.next = null;
-  }
+  } else if (result.total.slice(-1) === '.') result.total = result.total.slice(0, -1);
   result.operation = '=';
   return result;
 };
