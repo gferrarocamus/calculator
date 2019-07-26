@@ -2,27 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Button = ({
-  name, color, wide, onClick,
+  name, color, wide, clickHandler,
 }) => {
   const colorClass = `${color}-bg`;
   const widthClass = wide ? 'wide' : '';
   return (
-    <div className={`button ${colorClass} ${widthClass}`} onClick={onClick}>
-      {name}
-    </div>
+    <div className={`button ${colorClass} ${widthClass}`} onClick={clickHandler} children={name} />
   );
 };
 
 Button.propTypes = {
   name: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  wide: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
-};
-
-Button.defaultProps = {
-  color: 'orange',
-  wide: false,
+  color: PropTypes.string.isRequired,
+  wide: PropTypes.bool.isRequired,
+  clickHandler: PropTypes.func.isRequired,
 };
 
 export default Button;

@@ -6,22 +6,23 @@ import '../style/components.css';
 
 class App extends React.Component {
   state = {
-    total: null,
-    next: null,
-    operation: null,
-  };
+      total: null,
+      next: null,
+      operation: null,
+  }
 
-  handleClick = buttonName => {
+  handleClick = (buttonName) => {
     const prevState = this.state;
+    console.log(calculate(prevState, buttonName));
     this.setState(calculate(prevState, buttonName));
-  };
+  }
 
   render() {
-    const { total, next, operation } = this.state;
+    const { total, next, operation} = this.state;
     return (
       <div id="main-container">
         <Display result={total} />
-        <ButtonPanel onClick={buttonName => this.handleClick(buttonName)} />
+        <ButtonPanel clickHandler={(buttonName) => this.handleClick(buttonName)} />
       </div>
     );
   }

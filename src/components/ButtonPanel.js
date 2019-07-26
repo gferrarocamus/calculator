@@ -2,44 +2,47 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
-const ButtonPanel = ({ onClick }) => {
-  const spreadProps = (buttonName) => {
-    const callback = () => onClick(buttonName);
-    return {
-      onClick: callback,
+const ButtonPanel = ({ clickHandler }) => {
+  const spreadProps = (buttonName, color = 'orange', wide = false) => {
+    const callback = () => clickHandler(buttonName);
+    const props = {
+      clickHandler: callback,
       name: buttonName,
+      color,
+      wide,
     };
+    return props;
   };
 
   return (
     <div className="button-panel">
       <div className="button-panel-row">
-        <Button color="gray" {...spreadProps('AC')} />
-        <Button color="gray" {...spreadProps('+/−')} />
-        <Button color="gray" {...spreadProps('%')} />
+        <Button {...spreadProps('AC', 'gray')} />
+        <Button {...spreadProps('+/−', 'gray')} />
+        <Button {...spreadProps('%', 'gray')} />
         <Button {...spreadProps('÷')} />
       </div>
       <div className="button-panel-row">
-        <Button color="gray" {...spreadProps('7')} />
-        <Button color="gray" {...spreadProps('8')} />
-        <Button color="gray" {...spreadProps('9')} />
+        <Button {...spreadProps('7', 'gray')} />
+        <Button {...spreadProps('8', 'gray')} />
+        <Button {...spreadProps('9', 'gray')} />
         <Button {...spreadProps('×')} />
       </div>
       <div className="button-panel-row">
-        <Button color="gray" {...spreadProps('4')} />
-        <Button color="gray" {...spreadProps('5')} />
-        <Button color="gray" {...spreadProps('6')} />
+        <Button {...spreadProps('4', 'gray')} />
+        <Button {...spreadProps('5', 'gray')} />
+        <Button {...spreadProps('6', 'gray')} />
         <Button {...spreadProps('−')} />
       </div>
       <div className="button-panel-row">
-        <Button color="gray" {...spreadProps('1')} />
-        <Button color="gray" {...spreadProps('2')} />
-        <Button color="gray" {...spreadProps('3')} />
+        <Button {...spreadProps('1', 'gray')} />
+        <Button {...spreadProps('2', 'gray')} />
+        <Button {...spreadProps('3', 'gray')} />
         <Button {...spreadProps('+')} />
       </div>
       <div className="button-panel-row">
-        <Button wide color="gray" {...spreadProps('0')} />
-        <Button color="gray" {...spreadProps('.')} />
+        <Button {...spreadProps('0', 'gray', true)} />
+        <Button {...spreadProps('.', 'gray')} />
         <Button {...spreadProps('=')} />
       </div>
     </div>
@@ -47,7 +50,7 @@ const ButtonPanel = ({ onClick }) => {
 };
 
 ButtonPanel.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  clickHandler: PropTypes.func.isRequired,
 };
 
 export default ButtonPanel;
