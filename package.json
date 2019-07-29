@@ -2,6 +2,7 @@
   "name": "calculator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://gferrarocamus.github.io/restaurant-page/",
   "dependencies": {
     "big.js": "^5.2.2",
     "prop-types": "^15.7.2",
