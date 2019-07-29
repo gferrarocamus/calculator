@@ -7,9 +7,14 @@ const Button = ({
   const colorClass = `${color}-bg`;
   const widthClass = wide ? 'wide' : '';
   return (
-    <div className={`button ${colorClass} ${widthClass}`} onClick={clickHandler}>
+    <button
+      type="button"
+      tabIndex="0"
+      className={`button ${colorClass} ${widthClass}`}
+      onClick={clickHandler}
+    >
       {name}
-    </div>
+    </button>
   );
 };
 
