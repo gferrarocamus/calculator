@@ -1,38 +1,56 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from './Button';
 
-const ButtonPanel = () => (
-  <div className="button-panel">
-    <div className="button-panel-row">
-      <Button color="gray" name="AC" />
-      <Button color="gray" name="+/−" />
-      <Button color="gray" name="%" />
-      <Button name="÷" />
+const ButtonPanel = ({ clickHandler }) => {
+  const spreadProps = (buttonName, color = 'orange', wide = false) => {
+    const callback = () => clickHandler(buttonName);
+    const props = {
+      clickHandler: callback,
+      name: buttonName,
+      color,
+      wide,
+    };
+    return props;
+  };
+
+  return (
+    <div className="button-panel">
+      <div className="button-panel-row">
+        <Button {...spreadProps('AC', 'gray')} />
+        <Button {...spreadProps('+/−', 'gray')} />
+        <Button {...spreadProps('%', 'gray')} />
+        <Button {...spreadProps('÷')} />
+      </div>
+      <div className="button-panel-row">
+        <Button {...spreadProps('7', 'gray')} />
+        <Button {...spreadProps('8', 'gray')} />
+        <Button {...spreadProps('9', 'gray')} />
+        <Button {...spreadProps('×')} />
+      </div>
+      <div className="button-panel-row">
+        <Button {...spreadProps('4', 'gray')} />
+        <Button {...spreadProps('5', 'gray')} />
+        <Button {...spreadProps('6', 'gray')} />
+        <Button {...spreadProps('−')} />
+      </div>
+      <div className="button-panel-row">
+        <Button {...spreadProps('1', 'gray')} />
+        <Button {...spreadProps('2', 'gray')} />
+        <Button {...spreadProps('3', 'gray')} />
+        <Button {...spreadProps('+')} />
+      </div>
+      <div className="button-panel-row">
+        <Button {...spreadProps('0', 'gray', true)} />
+        <Button {...spreadProps('.', 'gray')} />
+        <Button {...spreadProps('=')} />
+      </div>
     </div>
-    <div className="button-panel-row">
-      <Button color="gray" name="7" />
-      <Button color="gray" name="8" />
-      <Button color="gray" name="9" />
-      <Button name="×" />
-    </div>
-    <div className="button-panel-row">
-      <Button color="gray" name="4" />
-      <Button color="gray" name="5" />
-      <Button color="gray" name="6" />
-      <Button name="−" />
-    </div>
-    <div className="button-panel-row">
-      <Button color="gray" name="1" />
-      <Button color="gray" name="2" />
-      <Button color="gray" name="3" />
-      <Button name="+" />
-    </div>
-    <div className="button-panel-row">
-      <Button wide color="gray" name="0" />
-      <Button color="gray" name="." />
-      <Button name="=" />
-    </div>
-  </div>
-);
+  );
+};
+
+ButtonPanel.propTypes = {
+  clickHandler: PropTypes.func.isRequired,
+};
 
 export default ButtonPanel;

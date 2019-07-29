@@ -1,8 +1,17 @@
 import operate from './operate';
 
+const clear = (value) => {
+  if (value === null) return '';
+  if (value === '-') return '-';
+
+  const copy = value.slice();
+  if (Number.isNaN(+copy)) return '';
+  return copy;
+};
+
 const copyData = data => ({
-  total: data.total || '',
-  next: data.next || '',
+  total: clear(data.total),
+  next: clear(data.next),
   operation: data.operation,
 });
 
@@ -15,57 +24,72 @@ const digits = (data, buttonName) => {
   }
 
   if (result.operation === null) {
-    result.total += buttonName;
+    result.total = result.total === '0' ? buttonName : (result.total += buttonName);
   } else {
     result.next += buttonName;
   }
   return result;
 };
 
+const pointChecks = (value) => {
+  if (value.slice(-1) === '.') return value;
+  if (value === '' || value.indexOf('.') !== -1) return '0.';
+  return `${value}.`;
+};
+
 const point = (data) => {
   const result = copyData(data);
-  if (result.operation === null) {
-    result.total += result.total === '' ? '0.' : '.';
+
+  if (result.operation === '=') {
+    result.total = '';
+    result.operation = null;
+  }
+
+  if (result.next === '' && result.operation === null) {
+    result.total = pointChecks(result.total);
   } else {
-    result.next += result.next === '' ? '0.' : result.next += '.';
+    result.next = pointChecks(result.next);
   }
   return result;
 };
 
 const percentage = (data) => {
   const result = copyData(data);
-  if (result.next === '') {
+  if (result.next === '' && !/[+−×÷]/.test(result.operation)) {
     result.total = operate(result.total, '100', '÷');
-  } else if (result.operation !== null) {
+  } else {
     const secondValue = operate(result.next, '100', '÷');
     result.total = operate(result.total, secondValue, result.operation);
-    result.next = null;
-    result.operation = null;
   }
+  result.operation = '=';
   return result;
 };
 
 const basicOperators = (data, buttonName) => {
   const result = copyData(data);
 
-  if (result.total === '') result.total = 0;
+  result.operation = buttonName;
 
   if (result.next !== '') {
     result.total = operate(result.total, result.next, buttonName);
     result.next = null;
-    result.operation = null;
-  } else {
-    result.operation = buttonName;
   }
+
   return result;
+};
+
+const inverseChecks = (value) => {
+  if (value === '' || value === '0') return '-';
+  if (value === '-') return '0';
+  return operate(value, '-1', '×');
 };
 
 const inverse = (data) => {
   const result = copyData(data);
-  if (result.operation === null) {
-    result.total = operate(result.total, '-1', '×');
+  if (result.next === '' && !/[+−×÷]/.test(result.operation)) {
+    result.total = inverseChecks(result.total);
   } else {
-    result.next = operate(result.next, '-1', '×');
+    result.next = inverseChecks(result.next);
   }
   return result;
 };
@@ -78,18 +102,19 @@ const allClear = () => ({
 
 const equal = (data) => {
   const result = copyData(data);
-  if (result.next !== '') {
+  if (/[+−×÷]/.test(result.operation)) {
     result.total = result.total === ''
       ? operate(0, result.next, result.operation)
       : operate(result.total, result.next, result.operation);
     result.next = null;
-  }
+  } else if (result.total.slice(-1) === '.') result.total = result.total.slice(0, -1);
   result.operation = '=';
   return result;
 };
 
 const calculate = (data, buttonName) => {
   switch (buttonName) {
+    case '0':
     case '1':
     case '2':
     case '3':
