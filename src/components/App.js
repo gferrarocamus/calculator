@@ -12,14 +12,13 @@ class App extends React.Component {
   };
 
   handleClick = buttonName => {
-    const prevState = this.state;
-    this.setState(calculate(prevState, buttonName));
+    this.setState(prevState => calculate(prevState, buttonName));
   };
 
   stringToDisplay = () => {
     let { total, next, operation } = this.state;
-    if(operation === '=') operation = '';
-    return `${total || '0'}${operation || ''}${next || ''}`
+    if (operation === '=') operation = '';
+    return `${total || '0'}${operation || ''}${next || ''}`;
   };
 
   render() {
