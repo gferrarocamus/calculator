@@ -30,7 +30,7 @@ See it [live on Heroku](https://math-magicians-inc-calculator.herokuapp.com/).
 
 ## License
 
-MIT © 2019 Giuliana Ferraro
+MIT © 2020 [Giuliana Ferraro](https://www.giulianaferraro.com/) <[giuliana.ferraro.dev@gmail.com](mailto:giuliana.ferraro.dev@gmail.com)>
 
 ---
 
