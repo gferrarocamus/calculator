@@ -5,27 +5,33 @@ import calculate from '../logic/calculate';
 import '../style/components.css';
 
 class App extends React.Component {
-  state = {
-    total: null,
-    next: null,
-    operation: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: null,
+      next: null,
+      operation: null,
+    };
+  }
 
-  handleClick = buttonName => {
+  handleClick(buttonName) {
     this.setState(prevState => calculate(prevState, buttonName));
-  };
+  }
 
-  stringToDisplay = () => {
-    let { total, next, operation } = this.state;
+  stringToDisplay() {
+    let { operation } = this.state;
+    const { total, next } = this.state;
     if (operation === '=') operation = '';
     return `${total || '0'}${operation || ''}${next || ''}`;
-  };
+  }
 
   render() {
     return (
       <div id="main-container">
         <Display result={this.stringToDisplay()} />
-        <ButtonPanel clickHandler={buttonName => this.handleClick(buttonName)} />
+        <ButtonPanel
+          clickHandler={buttonName => this.handleClick(buttonName)}
+        />
       </div>
     );
   }
