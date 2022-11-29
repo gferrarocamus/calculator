@@ -26,7 +26,7 @@ Compile in development mode with `npm start` and you're good to go.
 
 ## Live Version
 
-See it [live on Heroku](https://math-magicians-inc-calculator.herokuapp.com/).
+See it live [here](https://math-magicians-inc-calculator.netlify.app/).
 
 ## License
 
